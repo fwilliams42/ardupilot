@@ -8,11 +8,6 @@
 #include <AP_HAL/Semaphores.h>
 #include <AP_HAL/Device.h>
 
-// default address for Honeywell sensors is 0x28 but may depend on chip
-#ifndef HAL_BARO_HSC_I2C_ADDR
-#define HAL_BARO_HSC_I2C_ADDR 0x28
-#endif
-
 class AP_Baro_HSC : public AP_Baro_Backend
 {
 public:

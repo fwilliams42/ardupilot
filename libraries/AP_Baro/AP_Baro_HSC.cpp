@@ -14,14 +14,9 @@
 
 #if AP_BARO_HSC_ENABLED
 
-#include <utility>
 #include <stdio.h>
 
-#include <AP_Math/AP_Math.h>
-#include <AP_Math/crc.h>
-#include <AP_BoardConfig/AP_BoardConfig.h>
-
-extern const AP_HAL::HAL &hal;
+extern const AP_HAL::HAL& hal;
 
 // constructor
 AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
@@ -37,7 +32,7 @@ AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
 {
 }
 
-// probe if device is connected and return an instance of it
+// probe if device is connected and return an instance if it is
 AP_Baro_Backend* AP_Baro_HSC::probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
                                     uint16_t output_min, uint16_t output_max,
                                     float pressure_min, float pressure_max)
@@ -45,7 +40,7 @@ AP_Baro_Backend* AP_Baro_HSC::probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device
     if (!dev) {
         return nullptr;
     }
-    AP_Baro_HSC *sensor = new AP_Baro_HSC(baro, std::move(dev), output_min, output_max, pressure_min, pressure_max);
+    AP_Baro_HSC* sensor = new AP_Baro_HSC(baro, std::move(dev), output_min, output_max, pressure_min, pressure_max);
     if (!sensor || !sensor->_init()) {
         delete sensor;
         return nullptr;
