@@ -37,7 +37,7 @@ AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
 {
 }
 
-// probe if device is connected and return and instance of it
+// probe if device is connected and return an instance of it
 AP_Baro_Backend* AP_Baro_HSC::probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
                                     uint16_t output_min, uint16_t output_max,
                                     float pressure_min, float pressure_max)

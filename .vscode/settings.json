@@ -1,8 +1,4 @@
 {
     "cSpell.language": "en-GB",
-    "astyle.astylerc": "${workspaceFolder}/Tools/CodeStyle/astylerc",
-    "files.associations": {
-        "*.tcc": "cpp",
-        "string_view": "cpp"
-    }
+    "astyle.astylerc": "${workspaceFolder}/Tools/CodeStyle/astylerc"
 }
