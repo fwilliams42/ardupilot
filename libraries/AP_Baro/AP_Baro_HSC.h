@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AP_Baro_Backend.h"
+#include "AP_Baro_HSC_Types.h"
 
 #if AP_BARO_HSC_ENABLED
 
@@ -21,21 +22,10 @@ class AP_Baro_HSC : public AP_Baro_Backend
 public:
     void update() override;
 
-    enum HSC_TRANSFER_FUNCTION_TYPE {
-        ANALOG_A,
-        ANALOG_B,
-        ANALOG_C,
-        ANALOG_F,
-    };
-
-    enum HSC_PRESSURE_RANGE_TYPE {
-        ABS_100KA,
-    };
-
-    static AP_Baro_Backend *probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum HSC_TRANSFER_FUNCTION_TYPE hsc_tf_type=ANALOG_A, enum HSC_PRESSURE_RANGE_TYPE hsc_pr_type=ABS_100KA);
+    static AP_Baro_Backend *probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type=AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_A, enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type=AP_Baro_HSC_Types::PRESSURE_RANGE::ABS_100KA);
 
 private:
-    AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum HSC_TRANSFER_FUNCTION_TYPE hsc_tf_type, enum HSC_PRESSURE_RANGE_TYPE hsc_pr_type);
+    AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type=AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_A, enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type=AP_Baro_HSC_Types::PRESSURE_RANGE::ABS_100KA);
 
     bool _init();
 
@@ -58,8 +48,8 @@ private:
     float _pressure_pa;
     float _temperature_c;
 
-    enum HSC_TRANSFER_FUNCTION_TYPE _hsc_tf_type;
-    enum HSC_PRESSURE_RANGE_TYPE _hsc_pr_type;
+    enum AP_Baro_HSC_Types::TRANSFER_FUNCTION _hsc_tf_type;
+    enum AP_Baro_HSC_Types::PRESSURE_RANGE _hsc_pr_type;
 };
 
 

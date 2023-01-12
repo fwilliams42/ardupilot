@@ -9,6 +9,8 @@
 #include <AP_MSP/msp.h>
 #include <AP_ExternalAHRS/AP_ExternalAHRS.h>
 
+#include "AP_Baro_HSC_Types.h"
+
 // maximum number of sensor instances
 #ifndef BARO_MAX_INSTANCES
 #define BARO_MAX_INSTANCES 3
@@ -48,6 +50,12 @@ public:
 
     // initialise the barometer object, loading backend drivers
     void init(void);
+
+    // init overload to allow HSC drivers to specify their functionality
+    // as this cannot be determined programatically
+#ifdef AP_BARO_HSC_ENABLED
+    void init(enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type, enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type);
+#endif
 
     // update the barometer object, asking backends to push data to
     // the frontend

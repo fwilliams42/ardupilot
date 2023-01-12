@@ -49,6 +49,7 @@
 #include "AP_Baro_ICP101XX.h"
 #include "AP_Baro_ICP201XX.h"
 #include "AP_Baro_HSC.h"
+#include "AP_Baro_HSC_Types.h"
 
 #include <AP_Airspeed/AP_Airspeed.h>
 #include <AP_AHRS/AP_AHRS.h>
@@ -800,6 +801,20 @@ void AP_Baro::init(void)
 #endif
 }
 
+#ifdef AP_BARO_HSC_ENABLED
+void AP_Baro::init(enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type, enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type) {
+    ADD_BACKEND(AP_Baro_HSC::probe(*this,
+                                      std::move(GET_I2C_DEVICE(_ext_bus, HAL_BARO_HSC_I2C_ADDR)),
+                                      hsc_tf_type,
+                                      hsc_pr_type));
+
+    ADD_BACKEND(AP_Baro_HSC::probe(*this,
+                                      std::move(GET_I2C_DEVICE(_ext_bus, HAL_BARO_HSC_I2C_ADDR2)),
+                                      hsc_tf_type,
+                                      hsc_pr_type));                               
+}
+#endif // AP_BARO_HSC_ENABLED
+
 /*
   probe all the i2c barometers enabled with BARO_PROBE_EXT. This is
   used on boards without a builtin barometer
@@ -857,11 +872,6 @@ void AP_Baro::_probe_i2c_barometers(void)
 #if AP_BARO_LPS2XH_ENABLED
         { PROBE_LPS25H, AP_Baro_LPS2XH::probe, HAL_BARO_LPS25H_I2C_ADDR },
 #endif
-#if AP_BARO_HSC_ENABLED
-        { PROBE_HSC, AP_Baro_HSC::probe, HAL_BARO_HSC_I2C_ADDR },
-        { PROBE_HSC, AP_Baro_HSC::probe, HAL_BARO_HSC_I2C_ADDR2 },
-#endif
-
 #if APM_BUILD_TYPE(APM_BUILD_ArduSub)
 #if AP_BARO_KELLERLD_ENABLED
         { PROBE_KELLER, AP_Baro_KellerLD::probe, HAL_BARO_KELLERLD_I2C_ADDR },

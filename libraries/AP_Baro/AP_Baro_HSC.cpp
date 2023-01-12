@@ -19,7 +19,7 @@
 extern const AP_HAL::HAL& hal;
 
 // constructor
-AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum HSC_TRANSFER_FUNCTION_TYPE hsc_tf_type, enum HSC_PRESSURE_RANGE_TYPE hsc_pr_type)
+AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type, enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type)
     : AP_Baro_Backend(baro)
     , _dev(std::move(dev))
     , _hsc_tf_type(hsc_tf_type)
@@ -29,8 +29,8 @@ AP_Baro_HSC::AP_Baro_HSC(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev, enum
 
 // probe if device is connected and return an instance if it is
 AP_Baro_Backend* AP_Baro_HSC::probe(AP_Baro& baro, AP_HAL::OwnPtr<AP_HAL::Device> dev,
-                                    enum HSC_TRANSFER_FUNCTION_TYPE hsc_tf_type,
-                                    enum HSC_PRESSURE_RANGE_TYPE hsc_pr_type)
+                                    enum AP_Baro_HSC_Types::TRANSFER_FUNCTION hsc_tf_type,
+                                    enum AP_Baro_HSC_Types::PRESSURE_RANGE hsc_pr_type)
 {
     if (!dev) {
         return nullptr;
@@ -70,26 +70,26 @@ bool AP_Baro_HSC::_init()
 
     // set the calculation coefficients based off device type
     switch (_hsc_tf_type) {
-        case ANALOG_A:
+        case AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_A:
             _output_min = 0.1 * (2<<14);
             _output_max = 0.9 * (2<<14);
             break;
-        case ANALOG_B:
+        case AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_B:
             _output_min = 0.05 * (2<<14);
             _output_max = 0.95 * (2<<14);
             break;
-        case ANALOG_C:
+        case AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_C:
             _output_min = 0.05 * (2<<14);
             _output_max = 0.85 * (2<<14);
             break;
-        case ANALOG_F:
+        case AP_Baro_HSC_Types::TRANSFER_FUNCTION::ANALOG_F:
             _output_min = 0.04 * (2<<14);
             _output_max = 0.94 * (2<<14);
             break;
     }
 
     switch (_hsc_pr_type) {
-        case ABS_100KA:
+        case AP_Baro_HSC_Types::PRESSURE_RANGE::ABS_100KA:
             _pressure_min_pa = 0.0;
             _pressure_max_pa = 100e3;
             break;
